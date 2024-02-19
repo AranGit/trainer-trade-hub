@@ -1,0 +1,21 @@
+.cards-page {
+  padding: 12px;
+
+  .header {
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .right-content {
+      display: flex;
+      flex-direction: row;
+
+      .red-button {
+        margin-left: 10px;
+      }
+    }
+  }
+}
