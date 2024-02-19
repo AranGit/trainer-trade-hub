@@ -9,7 +9,7 @@ function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Pok
   const unduplicatedPokeList = getUnDuplicatedPoke(selectedPokeList);
 
   const totalPrice = selectedPokeList.reduce((sum, poke: Poke) => {
-    return poke.price + sum
+    return (poke.price * poke.amount) + sum
   }, 0)
   return (
     <div className='cart-container'>
@@ -65,7 +65,9 @@ function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Pok
         <div className='card-summary'>
           <div className='total-card-amount'>
             <p className='font-12'>Total card amount</p>
-            <p className='font-16'>{selectedPokeList.length}</p>
+            <p className='font-16'>{selectedPokeList.reduce((sum, poke: Poke) => {
+              return poke.amount + sum
+            }, 0)}</p>
           </div>
           <div className='total-card-price'>
             <p className='font-12'>Total price</p>
