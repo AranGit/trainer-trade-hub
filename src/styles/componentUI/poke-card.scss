@@ -1,0 +1,64 @@
+.poke-card {
+
+  .card-image {
+    max-width: 80%;
+    position: relative;
+    height: 195px;
+    z-index: 2;
+    left: 50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+  }
+
+  .card-content {
+    position: relative;
+    top: -83px;
+  }
+
+  .card-content-top {
+    background-color: $card-content-color;
+    border-top-left-radius: $main-border-radius;
+    border-top-right-radius: $main-border-radius;
+    height: 77px;
+    z-index: 1;
+  }
+
+  .card-content-bottom {
+    text-align: center;
+    background-color: $card-content-color;
+    border-bottom-left-radius: $main-border-radius;
+    border-bottom-right-radius: $main-border-radius;
+    padding: 12px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .card-name-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0px;
+      font-size: 12px;
+    }
+    
+    .price-content {
+      font-size: 14px;
+      color: $card-font-content-color;
+    }
+  }
+
+  .with-point::before {
+    content: "";
+    margin-left: 5px;
+    margin-right: 5px;
+    background: $button-normal-color;
+    border-radius: 50%;
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    position: relative;
+    top: -3px;
+  }
+}

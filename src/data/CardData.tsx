@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Set, mappedSet } from "../data/SetData"
 
-export interface PokeCard {
+
+export interface Poke {
   id: string,
   name: string,
   supertype: string,
@@ -10,10 +11,23 @@ export interface PokeCard {
   types: string[],
   set: Set,
   rarity: string,
-  images: string,
+  images: {
+    large: string,
+    small: string
+  },
+  price: number,
+  stock: number
 }
 
-export const mappedPokeCard = (item: any) => {
+export interface Cards {
+  data: Poke[],
+  page: number,
+  pageSize: number,
+  count: number,
+  totalCount: number
+}
+
+export const mappedPoke = (item: any) => {
   return {
     id: item.id,
     name: item.name,
@@ -23,6 +37,18 @@ export const mappedPokeCard = (item: any) => {
     types: item.types,
     set: mappedSet(item.set),
     rarity: item.rarity,
-    images: item.images
+    images: item.images,
+    price: (Math.random() * 1000).toFixed(2),
+    stock: Math.floor(Math.random() * 20)
+  }
+}
+
+export const mappedCards = (item: any) => {
+  return {
+    data: item.data.map((item: any) => mappedPoke(item)),
+    page: item.page,
+    pageSize: item.pageSize,
+    count: item.count,
+    totalCount: item.totalCount
   }
 }

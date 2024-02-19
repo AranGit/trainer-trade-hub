@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCardsApiUrl } from "../apis/Api"
-import { PokeCard, mappedPokeCard } from "../data/CardData"
+import { Cards, mappedCards } from "../data/CardData"
 import axios from "axios"
 
 export interface QueryParams {
@@ -10,17 +10,26 @@ export interface QueryParams {
   select: string
 }
 
-export const getCards = async ({ queryParams, onSuccess, onFailed }: { queryParams: QueryParams, onSuccess: any, onFailed: any }) => {
+export const params: QueryParams = {
+  page: "1",
+  pageSize: "20",
+  orderBy: "",
+  select: ""
+}
+
+export const getCards = async (
+  { queryParams, onSuccess, onFailed }:
+    {
+      queryParams: QueryParams,
+      onSuccess: (newCards: Cards) => void,
+      onFailed: any
+    }) => {
   try {
     const response = await axios.get(
-      `${getCardsApiUrl}
-      ?page=${queryParams.page}
-      &pageSize=${queryParams.pageSize}
-      &orderBy=${queryParams.orderBy}
-      &select=${queryParams.select}`
+      `${getCardsApiUrl}?page=${queryParams.page}&pageSize=${queryParams.pageSize}`
     );
     const data = await response.data;
-    const cards: PokeCard[] = data.users.map((item: any) => mappedPokeCard(item));
+    const cards: Cards = mappedCards(data);
     return onSuccess(cards);
   } catch (error) {
     console.error('Error fetching data:', error);

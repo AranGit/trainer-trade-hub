@@ -30,6 +30,23 @@ $main-border-radius: 8px;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  margin: 0px;
+}
+
 @mixin default-button {
   &.smallest {
     width: 48px;
@@ -51,8 +68,8 @@ $main-border-radius: 8px;
 .gray-button {
   @include default-button;
 
-  background-color: $button-normal-color;
-  color: $button-normal-color;
+  background-color: $button-normal-color !important;
+  color: $white-color !important;
 }
 
 .gray-button:hover {
@@ -81,3 +98,4 @@ $main-border-radius: 8px;
 @import "./layouts/main-layout.scss";
 @import "./layouts/cards-page.scss";
 @import "./inputUI/input.scss";
+@import "./componentUI/poke-card.scss";

@@ -1,8 +1,9 @@
 .cards-page {
-  padding: 12px;
+  padding: 0px 12px;
+  max-height: 100%;
 
   .header {
-    padding-bottom: 15px;
+    padding: 24px 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -16,6 +17,19 @@
       .red-button {
         margin-left: 10px;
       }
+    }
+  }
+
+  .cards-panel {
+    padding: 24px 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    .poke-card {
+      max-width: 176px;
+      flex-grow: 1 176px;
     }
   }
 }

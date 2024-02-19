@@ -1,14 +1,33 @@
-import { Button, Divider } from "@mui/material"
+import { Button, CircularProgress, Divider } from "@mui/material"
 import CartImage from "../assets/icons/shopping-bag.svg"
 
 import Paper from '@mui/material/Paper'
 import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '../assets/icons/search.svg'
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { Cards, Poke } from "../data/CardData"
+import { getCards, params } from '../apis/CardApi'
+import PokeCard from "../components/PokeCard"
 
 function CardsPage() {
   const [searchText, setSearchText] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [cards, setCards] = useState<Cards | null>(null)
+
+  useEffect(() => {
+    setIsLoading(true);
+    getCards({
+      queryParams: params,
+      onSuccess:
+        (newCards: Cards) => {
+          setCards(newCards);
+          setIsLoading(false);
+        }
+      ,
+      onFailed: () => setIsLoading(false)
+    });
+  }, [])
 
   return (
     <div className="cards-page">
@@ -40,6 +59,14 @@ function CardsPage() {
         </div>
       </div>
       <Divider />
+      <div className="cards-panel">
+        {
+          isLoading ? <CircularProgress /> :
+            cards?.data.map((poke: Poke) =>
+              <PokeCard poke={poke} />
+            )
+        }
+      </div>
     </div>
   )
 }
