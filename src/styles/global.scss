@@ -63,6 +63,10 @@ h1 {
   text-align: right;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @mixin default-button {
   &.smallest {
     width: 48px;

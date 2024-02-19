@@ -4,7 +4,7 @@ import CloseImage from "../assets/icons/x.svg"
 import { Poke, getUnDuplicatedPoke } from '../data/CardData'
 import { getPriceFormat } from '../Utils';
 
-function Cart({ selectedPokeList, onClose }: { selectedPokeList: Poke[], onClose: any }) {
+function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Poke[], onClearAll: any, onClose: any }) {
 
   const unduplicatedPokeList = getUnDuplicatedPoke(selectedPokeList);
 
@@ -17,7 +17,7 @@ function Cart({ selectedPokeList, onClose }: { selectedPokeList: Poke[], onClose
         <div className="header">
           <div>
             <h1>Cart</h1>
-            <div className='font-12'><u>Clear all</u></div>
+            <div className='font-12 cursor-pointer' onClick={onClearAll}><u>Clear all</u></div>
           </div>
           <div className="right-content">
             <Button className="red-button smallest" onClick={onClose}>

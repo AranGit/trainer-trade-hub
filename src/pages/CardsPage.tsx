@@ -70,7 +70,7 @@ function CardsPage() {
       })
       setSelectedCards(updatedSelectedCards);
     } else {
-      setSelectedCards([...selectedCards, {...selectedCard, amount: 1}]);
+      setSelectedCards([...selectedCards, { ...selectedCard, amount: 1 }]);
     }
     setCards(updatedCards)
   }
@@ -110,7 +110,6 @@ function CardsPage() {
           <>
             <div className="cards-filter-content">
               <h3>Choose Card</h3>
-
             </div>
             <div className="cards-panel">
               {
@@ -149,7 +148,33 @@ function CardsPage() {
               onClose={() => setOpenCart(false)}
               onOpen={() => setOpenCart(true)}
             >
-              <Cart selectedPokeList={selectedCards} onClose={() => setOpenCart(false)} />
+              <Cart
+                selectedPokeList={selectedCards}
+                onClearAll={() => {
+                  if (cards) {
+                    const updatedCardsData = cards.data.map((poke: Poke) => {
+                      const targetPoke = selectedCards.find((p: Poke) => p.id === poke.id);
+                      if (targetPoke) {
+                        return {
+                          ...poke,
+                          amount: poke.amount + targetPoke.amount
+                        }
+                      } else {
+                        return poke
+                      }
+                    }
+                    )
+                    const updatedCards: Cards | null = {
+                      ...cards,
+                      data: updatedCardsData
+                    }
+                    setCards(updatedCards);
+                  }
+                  setSelectedCards([]);
+                }}
+                onClose={() =>
+                  setOpenCart(false)}
+              />
             </SwipeableDrawer>
           </>}
     </div>
