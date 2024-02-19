@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { Cards, Poke } from "../data/CardData"
 import { getCards, defalutParams, QueryParams } from '../apis/CardApi'
 import PokeCard from "../components/PokeCard"
+import Cart from "../components/Cart"
 
 function CardsPage() {
   const [searchText, setSearchText] = useState<string>("")
@@ -80,7 +81,7 @@ function CardsPage() {
             <div className="cards-panel">
               {
                 cards?.data.map((poke: Poke) =>
-                  <PokeCard poke={poke} />
+                  <PokeCard poke={poke} onAddToCart={(selectedCard: Poke) => setSelectedCard([...selectedCards, selectedCard])} />
                 )
               }
             </div>
@@ -110,7 +111,7 @@ function CardsPage() {
               onClose={() => setOpenCart(false)}
               onOpen={() => setOpenCart(true)}
             >
-              "CART"
+              <Cart selectedPokeList={selectedCards} onClose={() => setOpenCart(false)} />
             </SwipeableDrawer>
           </>}
     </div>

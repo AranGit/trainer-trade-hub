@@ -38,7 +38,7 @@ export const mappedPoke = (item: any) => {
     set: mappedSet(item.set),
     rarity: item.rarity,
     images: item.images,
-    price: (Math.random() * 1000).toFixed(2),
+    price: (Math.random() * 1000),
     stock: Math.floor(Math.random() * 20)
   }
 }

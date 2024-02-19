@@ -47,6 +47,14 @@ h1 {
   margin: 0px;
 }
 
+.font-12 {
+  font-size: 12px;
+}
+.font-16{
+  font-size: 16px;
+  font-weight: 700;
+}
+
 @mixin default-button {
   &.smallest {
     width: 48px;
@@ -82,8 +90,9 @@ h1 {
 
 .red-button {
   @include default-button;
+  min-height: 48px !important;
   background-color: $cart-color !important;
-
+  color: $white-color !important;
 }
 
 .red-button:hover {
@@ -112,3 +121,4 @@ h1 {
 @import "./layouts/cards-page.scss";
 @import "./inputUI/input.scss";
 @import "./componentUI/poke-card.scss";
+@import "./componentUI/cart.scss";

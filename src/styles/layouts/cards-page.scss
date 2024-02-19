@@ -34,6 +34,12 @@
     .poke-card {
       min-width: 175px;
     }
+
+    @media screen and (max-width: 600px) {
+      .poke-card {
+        min-width: 100%;
+      }
+    }
   }
 
   padding-bottom: 24px;
