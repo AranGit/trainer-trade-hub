@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Menu, MenuItem } from '@mui/material';
 import React from 'react'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export type Data = {
   id: string,
@@ -8,7 +9,7 @@ export type Data = {
   onClick: any
 }
 
-function Dropdown({ id, title, items }: { id: string, title: string, items: Data[] }) {
+function Dropdown({ id, title, selectedItem, items }: { id: string, title: string, selectedItem: Data | null, items: Data[] }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,13 +22,14 @@ function Dropdown({ id, title, items }: { id: string, title: string, items: Data
     <div className='dropdown'>
       <Button
         id={`${id}-button`}
+        className='dropdown-button'
         aria-controls={open ? id : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="contained"
         disableElevation
         onClick={handleClick}
-        endIcon={"V"}
+        endIcon={<KeyboardArrowDownIcon />}
       >
         {title}
       </Button>
@@ -39,10 +41,22 @@ function Dropdown({ id, title, items }: { id: string, title: string, items: Data
         MenuListProps={{
           'aria-labelledby': `${id}-button`,
         }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
       >
         {
           items.map((item: Data, index) =>
-            <MenuItem key={`dropdown-item-${index}`} onClick={() => item.onClick(item.id, item.title)}>{item.title}</MenuItem>
+            <MenuItem
+              className={`${selectedItem ? "active" : ""}`} key={`dropdown-item-${index}`}
+              onClick={() => item.onClick(item)}>
+              {item.title}
+            </MenuItem>
           )
         }
       </Menu>

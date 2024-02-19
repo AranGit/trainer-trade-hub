@@ -19,9 +19,9 @@ function CardsPage() {
   const [openCart, setOpenCart] = useState<boolean>(false)
   const [selectedCards, setSelectedCards] = useState<Poke[]>([])
 
-  //const [selectedType, setSelectedType] = useState<Data | null>(null)
-  //const [selectedRarity, setSelectedRarity] = useState<Data | null>(null)
-  //const [selectedSet, setSelectedSet] = useState<Data | null>(null)
+  const [selectedType, setSelectedType] = useState<Data | null>(null)
+  const [selectedRarity, setSelectedRarity] = useState<Data | null>(null)
+  const [selectedSet, setSelectedSet] = useState<Data | null>(null)
 
   const fetchCardsData = (params: QueryParams) => {
     setIsLoading(true);
@@ -81,9 +81,43 @@ function CardsPage() {
     setCards(updatedCards)
   }
 
-  const allCardsLength = cards ? cards.data.length : 0;
-
   const typeItems: Data[] = []
+  const rarityItems: Data[] = []
+  const setItems: Data[] = []
+
+  if (cards) {
+
+    cards.data.map((poke: Poke, index) => {
+      poke.types.map((type: string, indexType) => {
+        if (!typeItems.find((typeData: Data) => typeData.title === type)) {
+          const data: Data = {
+            id: indexType.toString(),
+            title: type,
+            onClick: (d: Data) => setSelectedType(d)
+          }
+          typeItems.push(data);
+        }
+      })
+      if (!rarityItems.find((rarity: Data) => rarity.title === poke.rarity)) {
+        const data: Data = {
+          id: index.toString(),
+          title: poke.rarity,
+          onClick: (d: Data) => setSelectedRarity(d)
+        }
+        rarityItems.push(data);
+      }
+      if (!setItems.find((set: Data) => set.id === poke.set.id)) {
+        const data: Data = {
+          id: poke.set.id,
+          title: poke.set.name,
+          onClick: (d: Data) => setSelectedSet(d)
+        }
+        setItems.push(data);
+      }
+    })
+  }
+
+  const allCardsLength = cards ? cards.data.length : 0;
 
   return (
     <div className="cards-page">
@@ -126,7 +160,11 @@ function CardsPage() {
           <>
             <div className="cards-filter-content">
               <h3>Choose Card</h3>
-              <Dropdown id="type" title={"Type"} items={typeItems} />
+              <div className="dropdowns">
+                <Dropdown id="type" title={"Set"} items={setItems} selectedItem={selectedSet} />
+                <Dropdown id="type" title={"Rarity"} items={rarityItems} selectedItem={selectedRarity} />
+                <Dropdown id="type" title={"Type"} items={typeItems} selectedItem={selectedType} />
+              </div>
             </div>
             <div className="cards-panel">
               {
