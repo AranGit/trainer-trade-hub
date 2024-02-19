@@ -10,7 +10,7 @@ export interface QueryParams {
   select: string
 }
 
-export const params: QueryParams = {
+export const defalutParams: QueryParams = {
   page: "1",
   pageSize: "20",
   orderBy: "",

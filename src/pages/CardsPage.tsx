@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Divider } from "@mui/material"
+import { Button, CircularProgress, Divider, Pagination, Stack, SwipeableDrawer } from "@mui/material"
 import CartImage from "../assets/icons/shopping-bag.svg"
 
 import Paper from '@mui/material/Paper'
@@ -7,15 +7,17 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '../assets/icons/search.svg'
 import { useEffect, useState } from "react"
 import { Cards, Poke } from "../data/CardData"
-import { getCards, params } from '../apis/CardApi'
+import { getCards, defalutParams, QueryParams } from '../apis/CardApi'
 import PokeCard from "../components/PokeCard"
 
 function CardsPage() {
   const [searchText, setSearchText] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [cards, setCards] = useState<Cards | null>(null)
+  const [openCart, setOpenCart] = useState<boolean>(false)
+  const [selectedCards, setSelectedCard] = useState<Poke[]>([])
 
-  useEffect(() => {
+  const fetchCardsData = (params: QueryParams) => {
     setIsLoading(true);
     getCards({
       queryParams: params,
@@ -27,7 +29,16 @@ function CardsPage() {
       ,
       onFailed: () => setIsLoading(false)
     });
+  }
+
+  useEffect(() => {
+    fetchCardsData(defalutParams)
   }, [])
+
+  let pagesCount = 0
+  if (cards) {
+    pagesCount = Math.round(cards.totalCount / cards.pageSize);
+  }
 
   return (
     <div className="cards-page">
@@ -53,20 +64,55 @@ function CardsPage() {
               onChange={(e) => setSearchText(e.target.value)}
             />
           </Paper>
-          <Button className="red-button smallest">
+          <Button className="red-button smallest" onClick={() => setOpenCart(true)}>
             <img src={CartImage} alt="cart-icon" />
           </Button>
         </div>
       </div>
       <Divider />
-      <div className="cards-panel">
-        {
-          isLoading ? <CircularProgress /> :
-            cards?.data.map((poke: Poke) =>
-              <PokeCard poke={poke} />
-            )
-        }
-      </div>
+      {
+        isLoading ? <CircularProgress style={{ margin: "auto", display: "block" }} /> :
+          <>
+            <div className="cards-filter-content">
+              <h3>Choose Card</h3>
+
+            </div>
+            <div className="cards-panel">
+              {
+                cards?.data.map((poke: Poke) =>
+                  <PokeCard poke={poke} />
+                )
+              }
+            </div>
+            <div style={{ margin: "12px" }}>
+              {
+                pagesCount > 0 ?
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={pagesCount}
+                      page={cards?.page}
+                      shape="rounded"
+                      siblingCount={0}
+                      onChange={(e, value: number) => {
+                        fetchCardsData({
+                          ...defalutParams,
+                          page: value.toString()
+                        })
+                      }}
+                    />
+                  </Stack>
+                  : null
+              }
+            </div>
+            <SwipeableDrawer
+              anchor="right"
+              open={openCart}
+              onClose={() => setOpenCart(false)}
+              onOpen={() => setOpenCart(true)}
+            >
+              "CART"
+            </SwipeableDrawer>
+          </>}
     </div>
   )
 }

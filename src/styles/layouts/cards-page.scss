@@ -20,16 +20,21 @@
     }
   }
 
+  .cards-filter-content {
+    padding: 0px 12px;
+  }
+
   .cards-panel {
-    padding: 24px 12px;
+    padding: 12px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 12px;
+    column-gap: 1rem;
 
     .poke-card {
-      max-width: 176px;
-      flex-grow: 1 176px;
+      min-width: 175px;
     }
   }
+
+  padding-bottom: 24px;
 }

@@ -94,6 +94,19 @@ h1 {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+.MuiPagination-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  li>* {
+    color: $white-color;
+
+    &.Mui-selected {
+      background-color: $card-content-color;
+    }
+  }
+}
 
 @import "./layouts/main-layout.scss";
 @import "./layouts/cards-page.scss";
