@@ -1,0 +1,31 @@
+$main-bg-color: #252836;
+
+$font-content-color: #ffffff;
+$font-diabled-content-color: rgba(255, 255, 255, 0.4);
+
+$card-font-content-color: #ABBBC2;
+$card-content-color: #1F1D2B;
+
+$cart-color: #EA7C69;
+
+$button-normal-color: rgba(255, 255, 255, 0.08);
+$button-hover-color: rgba(255, 255, 255, 0.18);
+$button-disabled-color: rgba(255, 255, 255, 0.4);
+
+$smallest-button-size: 48px;
+
+$main-border-radius: 8px;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: $font-content-color;
+  background-color: $main-bg-color;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
