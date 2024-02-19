@@ -50,7 +50,8 @@ h1 {
 .font-12 {
   font-size: 12px;
 }
-.font-16{
+
+.font-16 {
   font-size: 16px;
   font-weight: 700;
 }
@@ -62,6 +63,7 @@ h1 {
 .text-center {
   text-align: center;
 }
+
 .text-right {
   text-align: right;
 }
@@ -131,6 +133,25 @@ h1 {
       background-color: $card-content-color;
     }
   }
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  position: relative;
+  right: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 @import "./layouts/main-layout.scss";

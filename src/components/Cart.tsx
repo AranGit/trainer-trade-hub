@@ -38,7 +38,7 @@ function Cart({ cards, selectedPokeList, onClearAll, handleCartItems, onClose }:
               Item
             </Grid>
             <Grid item xs={6}>
-              Qty
+              Quantity
             </Grid>
             <Grid item xs={3} className='text-right'>
               Price

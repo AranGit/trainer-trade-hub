@@ -10,6 +10,7 @@ import { Cards, Poke, removeAllZeroAmount } from "../data/CardData"
 import { getCards, defalutParams, QueryParams } from '../apis/CardApi'
 import PokeCard from "../components/PokeCard"
 import Cart from "../components/Cart"
+import Dropdown, { Data } from "../components/Dropdown"
 
 function CardsPage() {
   const [searchText, setSearchText] = useState<string>("")
@@ -17,6 +18,10 @@ function CardsPage() {
   const [cards, setCards] = useState<Cards | null>(null)
   const [openCart, setOpenCart] = useState<boolean>(false)
   const [selectedCards, setSelectedCards] = useState<Poke[]>([])
+
+  //const [selectedType, setSelectedType] = useState<Data | null>(null)
+  //const [selectedRarity, setSelectedRarity] = useState<Data | null>(null)
+  //const [selectedSet, setSelectedSet] = useState<Data | null>(null)
 
   const fetchCardsData = (params: QueryParams) => {
     setIsLoading(true);
@@ -78,6 +83,8 @@ function CardsPage() {
 
   const allCardsLength = cards ? cards.data.length : 0;
 
+  const typeItems: Data[] = []
+
   return (
     <div className="cards-page">
       <div className="header">
@@ -119,6 +126,7 @@ function CardsPage() {
           <>
             <div className="cards-filter-content">
               <h3>Choose Card</h3>
+              <Dropdown id="type" title={"Type"} items={typeItems} />
             </div>
             <div className="cards-panel">
               {

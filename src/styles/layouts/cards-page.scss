@@ -3,7 +3,7 @@
   max-height: 100%;
 
   .header {
-    padding: 24px 12px;
+    padding: 24px 0px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,10 +22,15 @@
 
   .cards-filter-content {
     padding: 0px 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .cards-panel {
-    padding: 12px;
+    padding: 12px 0px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
