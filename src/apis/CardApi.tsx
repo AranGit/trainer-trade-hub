@@ -4,17 +4,15 @@ import { Cards, mappedCards } from "../data/CardData"
 import axios from "axios"
 
 export interface QueryParams {
+  q: string,
   page: string,
   pageSize: string,
-  orderBy: string,
-  select: string
 }
 
 export const defalutParams: QueryParams = {
+  q: "",
   page: "1",
   pageSize: "20",
-  orderBy: "",
-  select: ""
 }
 
 export const getCards = async (
@@ -25,8 +23,9 @@ export const getCards = async (
       onFailed: any
     }) => {
   try {
+    const qParam = queryParams.q === "" ? "" : `?q=name:${queryParams.q}`;
     const response = await axios.get(
-      `${getCardsApiUrl}?page=${queryParams.page}&pageSize=${queryParams.pageSize}`
+      `${getCardsApiUrl}${qParam}${qParam ? "&" : "?"}page=${queryParams.page}&pageSize=${queryParams.pageSize}`
     );
     const data = await response.data;
     const cards: Cards = mappedCards(data);

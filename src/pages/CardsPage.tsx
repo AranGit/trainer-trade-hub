@@ -42,6 +42,7 @@ function CardsPage() {
   }
 
   const onAddToCart = (selectedCard: Poke, cardsData: Cards) => {
+    //Need to refactor
     const newData: Poke[] = cardsData.data.map((p: Poke) => {
       if (p.id === selectedCard.id) {
         return {
@@ -75,6 +76,8 @@ function CardsPage() {
     setCards(updatedCards)
   }
 
+  const allCardsLength = cards ? cards.data.length : 0;
+
   return (
     <div className="cards-page">
       <div className="header">
@@ -86,7 +89,13 @@ function CardsPage() {
             className="input-search-form"
             component="form"
             sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => {
+              e.preventDefault()
+              fetchCardsData({
+                ...defalutParams,
+                q: searchText,
+              })
+            }}
           >
             <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
               <img src={SearchIcon} alt="search-icon" />
@@ -113,13 +122,15 @@ function CardsPage() {
             </div>
             <div className="cards-panel">
               {
-                cards?.data.map((poke: Poke, index) =>
-                  <PokeCard
-                    key={`PokeCard-${index}`}
-                    poke={poke}
-                    onAddToCart={(selectedCard: Poke) => onAddToCart(selectedCard, cards)}
-                  />
-                )
+                allCardsLength < 1 && searchText !== "" ?
+                  <div className="text-center" style={{ width: "100%" }}>No card found for "{searchText}"</div> :
+                  cards?.data.map((poke: Poke, index) =>
+                    <PokeCard
+                      key={`PokeCard-${index}`}
+                      poke={poke}
+                      onAddToCart={(selectedCard: Poke) => onAddToCart(selectedCard, cards)}
+                    />
+                  )
               }
             </div>
             <div style={{ margin: "12px" }}>
@@ -151,6 +162,7 @@ function CardsPage() {
               <Cart
                 selectedPokeList={selectedCards}
                 onClearAll={() => {
+                  //Need to refactor
                   if (cards) {
                     const updatedCardsData = cards.data.map((poke: Poke) => {
                       const targetPoke = selectedCards.find((p: Poke) => p.id === poke.id);
