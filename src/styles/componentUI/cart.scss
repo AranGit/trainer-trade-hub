@@ -3,7 +3,7 @@
   position: relative;
   padding: 24px;
 
-  height: 100%;
+  height: calc(100% - 48px);
   max-width: 100%;
   background-color: $main-bg-color;
 
