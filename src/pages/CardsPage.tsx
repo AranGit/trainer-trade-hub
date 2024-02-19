@@ -6,7 +6,7 @@ import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '../assets/icons/search.svg'
 import { useEffect, useState } from "react"
-import { Cards, Poke } from "../data/CardData"
+import { Cards, Poke, removeAllZeroAmount } from "../data/CardData"
 import { getCards, defalutParams, QueryParams } from '../apis/CardApi'
 import PokeCard from "../components/PokeCard"
 import Cart from "../components/Cart"
@@ -41,13 +41,13 @@ function CardsPage() {
     pagesCount = Math.round(cards.totalCount / cards.pageSize);
   }
 
-  const onAddToCart = (selectedCard: Poke, cardsData: Cards) => {
+  const handleCartItems = (selectedCard: Poke, cardsData: Cards, isAdd: boolean = true) => {
     //Need to refactor
     const newData: Poke[] = cardsData.data.map((p: Poke) => {
       if (p.id === selectedCard.id) {
         return {
           ...p,
-          amount: p.amount - 1
+          amount: (isAdd ? p.amount - 1 : p.amount + 1)
         }
       } else {
         return p;
@@ -63,13 +63,13 @@ function CardsPage() {
         if (p.id === selectedCard.id) {
           return {
             ...selectedCard,
-            amount: p.amount + 1
+            amount: p.amount + (isAdd ? 1 : -1)
           }
         } else {
           return p;
         }
       })
-      setSelectedCards(updatedSelectedCards);
+      setSelectedCards(removeAllZeroAmount(updatedSelectedCards));
     } else {
       setSelectedCards([...selectedCards, { ...selectedCard, amount: 1 }]);
     }
@@ -128,7 +128,7 @@ function CardsPage() {
                     <PokeCard
                       key={`PokeCard-${index}`}
                       poke={poke}
-                      onAddToCart={(selectedCard: Poke) => onAddToCart(selectedCard, cards)}
+                      onAddToCart={(selectedCard: Poke) => handleCartItems(selectedCard, cards, true)}
                     />
                   )
               }
@@ -161,6 +161,8 @@ function CardsPage() {
             >
               <Cart
                 selectedPokeList={selectedCards}
+                cards={cards}
+                handleCartItems={handleCartItems}
                 onClearAll={() => {
                   //Need to refactor
                   if (cards) {

@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Grid } from '@mui/material'
 import CloseImage from "../assets/icons/x.svg"
-import { Poke, getUnDuplicatedPoke } from '../data/CardData'
+import { Cards, Poke, getUnDuplicatedPoke } from '../data/CardData'
 import { getPriceFormat } from '../Utils';
 
-function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Poke[], onClearAll: any, onClose: any }) {
+function Cart({ cards, selectedPokeList, onClearAll, handleCartItems, onClose }:
+  {
+    cards: Cards | null,
+    selectedPokeList: Poke[],
+    onClearAll: any,
+    handleCartItems: any
+    onClose: any
+  }) {
 
   const unduplicatedPokeList = getUnDuplicatedPoke(selectedPokeList);
 
@@ -37,8 +44,15 @@ function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Pok
               Price
             </Grid>
           </Grid>
-          {unduplicatedPokeList.map((poke: Poke, index) =>
-            <Grid container spacing={2} key={`poke-cart-${index}`} className='poke-cart-detail'>
+          {unduplicatedPokeList.map((poke: Poke, index) => {
+            const pokeInMarket = cards?.data.find((p: Poke) => p.id === poke.id);
+            let disabledIncreasing = false;
+            if (pokeInMarket) {
+              disabledIncreasing = pokeInMarket.amount <= 0;
+            } else {
+              disabledIncreasing = true;
+            }
+            return <Grid container spacing={2} key={`poke-cart-${index}`} className='poke-cart-detail'>
               <Grid item xs={3}>
                 <img src={poke.images.small} alt="poke-cart-image" style={{ maxWidth: "100%" }} />
               </Grid>
@@ -50,15 +64,31 @@ function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Pok
                 <div className='font-12 text-right'>$ {getPriceFormat(poke.amount * poke.price)}</div>
               </Grid>
               <Grid item xs={3}>
-                <Button className="gray-button font-18" fullWidth style={{ height: "54px" }}>-</Button>
+                <Button
+                  className="gray-button font-18"
+                  fullWidth
+                  style={{ height: "54px" }}
+                  onClick={() => handleCartItems(poke, cards, false)}
+                >
+                  -
+                </Button>
               </Grid>
               <Grid item xs={6}>
                 <div className='font-18 gray-button card-amount' style={{ height: "100%" }}>{poke.amount}</div>
               </Grid>
               <Grid item xs={3}>
-                <Button className="gray-button font-18" fullWidth style={{ height: "54px" }}>+</Button>
+                <Button
+                  className="gray-button font-18"
+                  fullWidth
+                  style={{ height: "54px" }}
+                  disabled={disabledIncreasing}
+                  onClick={() => handleCartItems(poke, cards, true)}
+                >
+                  +
+                </Button>
               </Grid>
             </Grid>
+          }
           )
           }
         </div>
@@ -81,7 +111,7 @@ function Cart({ selectedPokeList, onClearAll, onClose }: { selectedPokeList: Pok
         </div>
       </div>
 
-    </div>
+    </div >
   )
 }
 

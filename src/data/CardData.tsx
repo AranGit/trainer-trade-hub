@@ -62,3 +62,7 @@ export const getUnDuplicatedPoke = (pokeList: Poke[]) => {
   })
   return unduplicatedPokeList;
 }
+
+export const removeAllZeroAmount = (pokeList: Poke[]) => {
+  return pokeList.filter((poke) => poke.amount > 0)
+}
