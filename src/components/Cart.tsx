@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import CloseImage from "../assets/icons/x.svg"
-import { Poke } from '../data/CardData'
+import { Poke, getUnDuplicatedPoke } from '../data/CardData'
+import { getPriceFormat } from '../Utils';
 
 function Cart({ selectedPokeList, onClose }: { selectedPokeList: Poke[], onClose: any }) {
+
+  const unduplicatedPokeList = getUnDuplicatedPoke(selectedPokeList);
+
   const totalPrice = selectedPokeList.reduce((sum, poke: Poke) => {
     return poke.price + sum
   }, 0)
@@ -22,9 +26,41 @@ function Cart({ selectedPokeList, onClose }: { selectedPokeList: Poke[], onClose
           </div>
         </div>
         <div className='card-list'>
-          <div className='column-title'>
-
-          </div>
+          <Grid container spacing={2} className='row-title'>
+            <Grid item xs={3}>
+              Item
+            </Grid>
+            <Grid item xs={6}>
+              Qty
+            </Grid>
+            <Grid item xs={3} className='text-right'>
+              Price
+            </Grid>
+          </Grid>
+          {unduplicatedPokeList.map((poke: Poke, index) =>
+            <Grid container spacing={2} key={`poke-cart-${index}`} className='poke-cart-detail'>
+              <Grid item xs={3}>
+                <img src={poke.images.small} alt="poke-cart-image" style={{ maxWidth: "100%" }} />
+              </Grid>
+              <Grid item xs={6}>
+                <div className='font-12'>{poke.name}</div>
+                <div className='font-12'>$ {getPriceFormat(poke.price)}</div>
+              </Grid>
+              <Grid item xs={3}>
+                <div className='font-12 text-right'>$ {getPriceFormat(poke.amount * poke.price)}</div>
+              </Grid>
+              <Grid item xs={3}>
+                <Button className="gray-button font-18" fullWidth style={{ height: "54px" }}>-</Button>
+              </Grid>
+              <Grid item xs={6}>
+                <div className='font-18 gray-button card-amount' style={{ height: "100%" }}>{poke.amount}</div>
+              </Grid>
+              <Grid item xs={3}>
+                <Button className="gray-button font-18" fullWidth style={{ height: "54px" }}>+</Button>
+              </Grid>
+            </Grid>
+          )
+          }
         </div>
         <div className='card-summary'>
           <div className='total-card-amount'>
@@ -34,11 +70,7 @@ function Cart({ selectedPokeList, onClose }: { selectedPokeList: Poke[], onClose
           <div className='total-card-price'>
             <p className='font-12'>Total price</p>
             <p className='font-16'>$ {
-              totalPrice.toLocaleString('en-US', {
-                style: 'decimal',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
+              getPriceFormat(totalPrice)
             }</p>
           </div>
           <Button className="red-button" fullWidth>

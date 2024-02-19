@@ -2,6 +2,7 @@
 import { Button } from "@mui/material"
 import { Poke } from "../data/CardData"
 import CartImage from "../assets/icons/shopping-bag.svg"
+import { getPriceFormat } from "../Utils"
 
 function PokeCard({ poke, onAddToCart }: { poke: Poke, onAddToCart: any }) {
   return (
@@ -12,10 +13,10 @@ function PokeCard({ poke, onAddToCart }: { poke: Poke, onAddToCart: any }) {
         <div className="card-content-bottom">
           <p className="card-name-text">{poke.name}</p>
           <div className="price-content">
-            <span>$ {poke.price.toFixed(2)}</span><span className="with-point">{poke.stock} Cards</span>
+            <span>$ {getPriceFormat(poke.price)}</span><span className="with-point">{poke.amount} Cards</span>
           </div>
           <div>
-            <Button className="gray-button" onClick={() => onAddToCart(poke)}>
+            <Button className="gray-button" onClick={() => onAddToCart(poke)} disabled={poke.amount < 1}>
               <img src={CartImage} alt="cart-icon" style={{ marginRight: "4px" }} /> <span>Add to cart</span>
             </Button>
           </div>

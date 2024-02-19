@@ -16,7 +16,7 @@ function CardsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [cards, setCards] = useState<Cards | null>(null)
   const [openCart, setOpenCart] = useState<boolean>(false)
-  const [selectedCards, setSelectedCard] = useState<Poke[]>([])
+  const [selectedCards, setSelectedCards] = useState<Poke[]>([])
 
   const fetchCardsData = (params: QueryParams) => {
     setIsLoading(true);
@@ -39,6 +39,40 @@ function CardsPage() {
   let pagesCount = 0
   if (cards) {
     pagesCount = Math.round(cards.totalCount / cards.pageSize);
+  }
+
+  const onAddToCart = (selectedCard: Poke, cardsData: Cards) => {
+    const newData: Poke[] = cardsData.data.map((p: Poke) => {
+      if (p.id === selectedCard.id) {
+        return {
+          ...p,
+          amount: p.amount - 1
+        }
+      } else {
+        return p;
+      }
+    })
+    const updatedCards: Cards = {
+      ...cardsData,
+      data: newData
+    }
+    const duplicatedPoke = selectedCards.find((p: Poke) => p.id === selectedCard.id)
+    if (duplicatedPoke) {
+      const updatedSelectedCards: Poke[] = selectedCards.map((p: Poke) => {
+        if (p.id === selectedCard.id) {
+          return {
+            ...selectedCard,
+            amount: p.amount + 1
+          }
+        } else {
+          return p;
+        }
+      })
+      setSelectedCards(updatedSelectedCards);
+    } else {
+      setSelectedCards([...selectedCards, {...selectedCard, amount: 1}]);
+    }
+    setCards(updatedCards)
   }
 
   return (
@@ -80,8 +114,12 @@ function CardsPage() {
             </div>
             <div className="cards-panel">
               {
-                cards?.data.map((poke: Poke) =>
-                  <PokeCard poke={poke} onAddToCart={(selectedCard: Poke) => setSelectedCard([...selectedCards, selectedCard])} />
+                cards?.data.map((poke: Poke, index) =>
+                  <PokeCard
+                    key={`PokeCard-${index}`}
+                    poke={poke}
+                    onAddToCart={(selectedCard: Poke) => onAddToCart(selectedCard, cards)}
+                  />
                 )
               }
             </div>
@@ -94,7 +132,7 @@ function CardsPage() {
                       page={cards?.page}
                       shape="rounded"
                       siblingCount={0}
-                      onChange={(e, value: number) => {
+                      onChange={(_e, value: number) => {
                         fetchCardsData({
                           ...defalutParams,
                           page: value.toString()

@@ -55,6 +55,14 @@ h1 {
   font-weight: 700;
 }
 
+.font-18 {
+  font-size: 18px;
+}
+
+.text-right {
+  text-align: right;
+}
+
 @mixin default-button {
   &.smallest {
     width: 48px;
@@ -81,11 +89,12 @@ h1 {
 }
 
 .gray-button:hover {
-  background-color: $button-hover-color;
+  background-color: $button-hover-color !important;
 }
 
-.gray-button:disabled {
-  background-color: $button-disabled-color;
+.gray-button.Mui-disabled {
+  background-color: $button-disabled-color !important;
+  color: $font-diabled-content-color !important;
 }
 
 .red-button {

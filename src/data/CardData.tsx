@@ -16,7 +16,7 @@ export interface Poke {
     small: string
   },
   price: number,
-  stock: number
+  amount: number
 }
 
 export interface Cards {
@@ -39,7 +39,7 @@ export const mappedPoke = (item: any) => {
     rarity: item.rarity,
     images: item.images,
     price: (Math.random() * 1000),
-    stock: Math.floor(Math.random() * 20)
+    amount: Math.floor(Math.random() * 20)
   }
 }
 
@@ -51,4 +51,14 @@ export const mappedCards = (item: any) => {
     count: item.count,
     totalCount: item.totalCount
   }
+}
+
+export const getUnDuplicatedPoke = (pokeList: Poke[]) => {
+  const unduplicatedPokeList: Poke[] = [];
+  pokeList.map((poke: Poke) => {
+    if (!unduplicatedPokeList.find((unduplicatedPoke: Poke) => unduplicatedPoke.id === poke.id)) {
+      unduplicatedPokeList.push(poke)
+    }
+  })
+  return unduplicatedPokeList;
 }
