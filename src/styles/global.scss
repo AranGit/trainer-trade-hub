@@ -1,6 +1,6 @@
 $main-bg-color: #252836;
 
-$font-content-color: #ffffff;
+$white-color: #ffffff;
 $font-diabled-content-color: rgba(255, 255, 255, 0.4);
 
 $card-font-content-color: #ABBBC2;
@@ -21,7 +21,7 @@ $main-border-radius: 8px;
   line-height: 1.5;
   font-weight: 400;
 
-  color: $font-content-color;
+  color: $white-color;
   background-color: $main-bg-color;
 
   font-synthesis: none;
@@ -29,3 +29,38 @@ $main-border-radius: 8px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@mixin default-button {
+  &.smallest {
+    width: 48px;
+    height: 48px;
+  }
+
+  border-radius: $main-border-radius;
+}
+
+.gray-button {
+  @include default-button;
+
+  background-color: $button-normal-color;
+  color: $button-normal-color;
+}
+
+.gray-button:hover {
+  background-color: $button-hover-color;
+}
+.gray-button:disabled {
+  background-color: $button-disabled-color;
+}
+
+.red-button {
+  @include default-button;
+
+  background-color: $cart-color;
+}
+
+.red-button:hover {
+  filter: drop-shadow(0px, 8px, 24px, rgba(234, 124, 105, 0.4))
+}
+
+@import "./layouts/main-layout.scss";

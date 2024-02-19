@@ -1,8 +1,12 @@
-function PageLayout() {
-  return (
-    <div>
+import React from "react"
 
-    </div>
+function PageLayout({ children }: { children: React.ReactNode }) {
+  return (
+    //header
+    <main>
+      {children}
+    </main>
+    //footer
   )
 }
 

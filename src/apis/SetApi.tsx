@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getSetsApiUrl } from "./API"
+import { getSetsApiUrl } from "./Api"
 import { PokeCard, mappedPokeCard } from "../data/CardData"
 import axios from "axios"
 
