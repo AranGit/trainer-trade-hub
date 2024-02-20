@@ -11,9 +11,13 @@
     object-fit: contain;
   }
 
+  .card-image-large {
+    max-width: 80%;
+    max-height: 80%;
+  }
+
   .card-content {
-    position: relative;
-    top: -83px;
+    margin-top: -77px;
   }
 
   .card-content-top {

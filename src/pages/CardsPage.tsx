@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 import { Button, CircularProgress, Divider, Pagination, Stack, SwipeableDrawer } from "@mui/material"
 import CartImage from "../assets/icons/shopping-bag.svg"
 
@@ -117,17 +118,23 @@ function CardsPage() {
   }
 
   const cardsFiltered = cards?.data.filter((data: Poke) => {
-    let allConditionPassed = false;
+    let allConditionPassed = true;
     if (selectedSet) {
       allConditionPassed = selectedSet.id === data.set.id
+    } else {
+      allConditionPassed = true
     }
     if (selectedRarity) {
       allConditionPassed = allConditionPassed && selectedRarity.title === data.rarity
+    } else {
+      allConditionPassed = allConditionPassed
     }
     if (selectedType) {
       allConditionPassed = allConditionPassed && data.types.includes(selectedType.title);
+    } else {
+      allConditionPassed = allConditionPassed
     }
-    return (!selectedSet && !selectedRarity && !selectedType) || allConditionPassed;
+    return allConditionPassed;
   })
 
   const allCardsLength = cardsFiltered ? cardsFiltered.length : 0;
