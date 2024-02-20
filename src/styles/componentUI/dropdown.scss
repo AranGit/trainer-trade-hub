@@ -1,0 +1,48 @@
+.dropdown {
+  .dropdown-button {
+    background-color: $card-content-color !important;
+    border-radius: $main-border-radius !important;
+    color: $white-color;
+    border: 1px solid #393c49;
+  }
+
+  button {
+    p {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      margin: 0px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dropdown {
+    width: 100%;
+    button{
+      width: 100%;
+    }
+  }
+}
+
+ul.MuiList-root {
+  border: 1px solid #393c49;
+}
+
+ul.MuiList-root,
+.MuiMenu-paper {
+  border-radius: $main-border-radius !important;
+  background-color: $card-content-color !important;
+  color: $white-color;
+
+  li:hover,
+  li.active {
+    background-color: $button-hover-color !important;
+  }
+
+  > :not(:last-child) {
+    border-bottom: 1px solid #393c49;
+  }
+}

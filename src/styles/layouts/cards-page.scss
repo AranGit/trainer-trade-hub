@@ -1,0 +1,60 @@
+.cards-page {
+  padding: 0px 12px;
+  max-height: 100%;
+
+  .header {
+    padding: 24px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .right-content {
+      display: flex;
+      flex-direction: row;
+
+      .red-button {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .cards-filter-content {
+    padding: 0px 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    .dropdowns {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  }
+
+  .cards-panel {
+    padding: 12px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+
+    .poke-card {
+      min-width: 175px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .poke-card {
+        min-width: 100%;
+      }
+    }
+  }
+
+  padding-bottom: 24px;
+}
