@@ -86,19 +86,18 @@ function CardsPage() {
   const setItems: Data[] = []
 
   if (cards) {
-
     cards.data.map((poke: Poke, index) => {
-      poke.types.map((type: string, indexType) => {
+      poke.types.map((type: string, idx) => {
         if (!typeItems.find((typeData: Data) => typeData.title === type)) {
           const data: Data = {
-            id: indexType.toString(),
+            id: index.toString() + idx.toString(),
             title: type,
             onClick: (d: Data) => setSelectedType(d)
           }
           typeItems.push(data);
         }
       })
-      if (!rarityItems.find((rarity: Data) => rarity.title === poke.rarity)) {
+      if (!rarityItems.find((rarity: Data) => rarity.title === poke.rarity || poke.rarity === "")) {
         const data: Data = {
           id: index.toString(),
           title: poke.rarity,
@@ -117,7 +116,27 @@ function CardsPage() {
     })
   }
 
-  const allCardsLength = cards ? cards.data.length : 0;
+  const cardsFiltered = cards?.data.filter((data: Poke) => {
+    let allConditionPassed = false;
+    if (selectedSet) {
+      allConditionPassed = selectedSet.id === data.set.id
+    }
+    if (selectedRarity) {
+      allConditionPassed = allConditionPassed && selectedRarity.title === data.rarity
+    }
+    if (selectedType) {
+      allConditionPassed = allConditionPassed && data.types.includes(selectedType.title);
+    }
+    return (!selectedSet && !selectedRarity && !selectedType) || allConditionPassed;
+  })
+
+  const allCardsLength = cardsFiltered ? cardsFiltered.length : 0;
+
+  const clearAllFilter = () => {
+    setSelectedSet(null);
+    setSelectedRarity(null);
+    setSelectedType(null);
+  }
 
   return (
     <div className="cards-page">
@@ -161,6 +180,7 @@ function CardsPage() {
             <div className="cards-filter-content">
               <h3>Choose Card</h3>
               <div className="dropdowns">
+                <div className="font-12 cursor-pointer" onClick={clearAllFilter}><u>Clear Filter</u></div>
                 <Dropdown id="type" title={"Set"} items={setItems} selectedItem={selectedSet} />
                 <Dropdown id="type" title={"Rarity"} items={rarityItems} selectedItem={selectedRarity} />
                 <Dropdown id="type" title={"Type"} items={typeItems} selectedItem={selectedType} />
@@ -170,12 +190,15 @@ function CardsPage() {
               {
                 allCardsLength < 1 && searchText !== "" ?
                   <div className="text-center" style={{ width: "100%" }}>No card found for "{searchText}"</div> :
-                  cards?.data.map((poke: Poke, index) =>
-                    <PokeCard
-                      key={`PokeCard-${index}`}
-                      poke={poke}
-                      onAddToCart={(selectedCard: Poke) => handleCartItems(selectedCard, cards, true)}
-                    />
+                  cardsFiltered?.map((poke: Poke, index) => {
+                    return cards ?
+                      <PokeCard
+                        key={`PokeCard-${index}`}
+                        poke={poke}
+                        onAddToCart={(selectedCard: Poke) => handleCartItems(selectedCard, cards, true)}
+                      /> : null
+                  }
+
                   )
               }
             </div>

@@ -18,6 +18,10 @@ function Dropdown({ id, title, selectedItem, items }: { id: string, title: strin
   const handleClose = () => {
     setAnchorEl(null);
   };
+  let buttonTitle = title
+  if (selectedItem) {
+    buttonTitle = selectedItem.title
+  }
   return (
     <div className='dropdown'>
       <Button
@@ -31,7 +35,7 @@ function Dropdown({ id, title, selectedItem, items }: { id: string, title: strin
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        {title}
+        <p>{buttonTitle}</p>
       </Button>
       <Menu
         id={id}
@@ -51,12 +55,20 @@ function Dropdown({ id, title, selectedItem, items }: { id: string, title: strin
         }}
       >
         {
-          items.map((item: Data, index) =>
-            <MenuItem
-              className={`${selectedItem ? "active" : ""}`} key={`dropdown-item-${index}`}
-              onClick={() => item.onClick(item)}>
+          items.map((item: Data, index) => {
+            let className = ""
+            if (selectedItem) {
+              className = selectedItem.id === item.id ? "active" : ""
+            }
+            return <MenuItem
+              className={className} key={`dropdown-item-${index}`}
+              onClick={() => {
+                item.onClick(item);
+                setAnchorEl(null);
+              }}>
               {item.title}
             </MenuItem>
+          }
           )
         }
       </Menu>
